@@ -1,0 +1,12 @@
+{
+  "name": "metricore",
+  "version": "1.0.0",
+  "description": "CRE-powered decentralized risk monitoring for under-collateralized DeFi lending",
+  "workspaces": ["workflow", "backend"],
+  "scripts": {
+    "backend:dev": "npm run dev --workspace=backend",
+    "workflow:build": "npm run build --workspace=workflow",
+    "workflow:simulate": "npm run simulate --workspace=workflow"
+  },
+  "license": "MIT"
+}
