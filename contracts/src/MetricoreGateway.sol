@@ -225,8 +225,8 @@ contract MetricoreGateway is Ownable {
             return;
         }
 
+        lastActionTimestamp[actionType] = block.timestamp; // CEI: update state before external call
         _executeAction(actionType, actionData);
-        lastActionTimestamp[actionType] = block.timestamp;
         emit ActionExecuted(actionType, actionData);
     }
 
