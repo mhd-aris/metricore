@@ -3,6 +3,16 @@
 // These mirror the on-chain structs and the CODING_CONTEXT.md schema.
 // ─────────────────────────────────────────────────────────────────────────────
 
+// ── CRE Workflow Config ───────────────────────────────────────────────────────
+
+export type Config = {
+  secrets: {
+    ALERT_WEBHOOK_URL: string
+    GATEWAY_ADDRESS: string
+    PROTOCOL_ADDRESS: string
+  }
+}
+
 // ── Risk classification ───────────────────────────────────────────────────────
 
 export type RiskLevel = "SAFE" | "ELEVATED" | "HIGH" | "CRITICAL"

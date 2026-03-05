@@ -8,7 +8,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@chainlink/cre-sdk": "latest"
+    "@chainlink/cre-sdk": "latest",
+    "viem": "^2.0.0"
   },
   "devDependencies": {
     "typescript": "^5.0.0",
