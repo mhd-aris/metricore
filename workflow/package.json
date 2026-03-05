@@ -1,0 +1,17 @@
+{
+  "name": "metricore-workflow",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "cre workflow build",
+    "simulate": "cre workflow simulate",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@chainlink/cre-sdk": "latest"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  }
+}
