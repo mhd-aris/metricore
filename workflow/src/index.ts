@@ -1,10 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Metricore CRE Workflow — Main Orchestrator
 // Runs every 5 minutes via CronTrigger.
-// Reads protocol state → classifies risk → alerts → proposes on-chain action.
+// Reads protocol state → classifies risk → alerts → proposes on-chain action
+// via KeystoneForwarder (writeReport → onReport pattern).
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { encodeFunctionData } from "viem"
+import { encodeAbiParameters, encodeFunctionData } from "viem"
 import {
   handler,
   EVMClient,
@@ -12,6 +13,7 @@ import {
   Runner,
   type Runtime,
   encodeCallMsg,
+  prepareReportRequest,
 } from "@chainlink/cre-sdk"
 
 import { checkPositionHealth } from "./modules/positionHealth.js"
@@ -20,7 +22,6 @@ import { checkMarketCondition } from "./modules/marketCondition.js"
 import { classifyRisk, determineAction } from "./riskEngine.js"
 import { sendAlert } from "./alerting.js"
 import { ETH_MOCK_ADDRESS, ACTION_TYPES } from "./constants.js"
-import { encodeReduceLeverage, encodePausePositions } from "./utils.js"
 import type { Config } from "./types.js"
 import { abi as protocolABI } from "./abis/MockInvalendProtocol.js"
 import { abi as gatewayABI } from "./abis/MetricoreGateway.js"
@@ -52,8 +53,6 @@ function onRiskCheck(runtime: Runtime<Config>): Record<string, never> {
   // 1. Load secrets
   const gatewayAddr = runtime.getSecret({ id: "GATEWAY_ADDRESS" }).result().value
   const protocolAddr = runtime.getSecret({ id: "PROTOCOL_ADDRESS" }).result().value
-  const sentinelAddr = runtime.getSecret({ id: "SENTINEL_ADDRESS" }).result().value
-  console.log("[METRICORE] sentinelAddr:", sentinelAddr)
 
   // 2. Create EVMClient for Base Sepolia
   const evmClient = new EVMClient(
@@ -61,7 +60,6 @@ function onRiskCheck(runtime: Runtime<Config>): Record<string, never> {
   )
 
   // 3. Run all three risk checks sequentially
-  //    (checkMarketCondition internally initiates NodeRuntime fetches before resolving)
   const positionResult = checkPositionHealth(runtime, evmClient, protocolAddr, protocolABI)
   const poolResult = checkPoolStress(runtime, evmClient, protocolAddr, protocolABI)
   const marketData = checkMarketCondition(runtime, evmClient, gatewayAddr, gatewayABI)
@@ -89,34 +87,34 @@ function onRiskCheck(runtime: Runtime<Config>): Record<string, never> {
     console.log("[METRICORE] All systems nominal. No action required.")
   }
 
-  // 7. EVM write for HIGH/CRITICAL — propose action on Gateway
+  // 7. EVM write for HIGH/CRITICAL — submit action via KeystoneForwarder
+  //    CRE write path: runtime.report() → evmClient.writeReport()
+  //    → KeystoneForwarder → MetricoreGateway.onReport(metadata, report)
+  //    Report payload: abi.encode(bytes32 actionType)
   if (action === "REDUCE_LEVERAGE" || action === "PAUSE_POSITIONS") {
     const actionType =
       action === "REDUCE_LEVERAGE"
         ? ACTION_TYPES.REDUCE_LEVERAGE
         : ACTION_TYPES.PAUSE_POSITIONS
 
-    const actionData =
-      action === "REDUCE_LEVERAGE"
-        ? encodeReduceLeverage(3)
-        : encodePausePositions()
+    // Encode report payload: actionType as bytes32
+    const reportPayload = encodeAbiParameters(
+      [{ type: "bytes32" }],
+      [actionType],
+    ) as `0x${string}`
 
-    const writeCallData = encodeFunctionData({
-      abi: gatewayABI,
-      functionName: "proposeAction",
-      args: [actionType, actionData],
-    })
-
-    console.log("[METRICORE] Attempting proposeAction from:", sentinelAddr)
+    console.log("[METRICORE] Attempting proposeAction via writeReport, actionType:", actionType)
     try {
-      evmClient.callContract(runtime, {
-        call: encodeCallMsg({
-          from: sentinelAddr as `0x${string}`,
-          to: gatewayAddr as `0x${string}`,
-          data: writeCallData,
-        }),
+      const reportRequest = prepareReportRequest(reportPayload)
+      const signedReport = runtime.report(reportRequest).result()
+      // WriteCreReportRequestJson: receiver is string, no $report marker
+      evmClient.writeReport(runtime, {
+        receiver: gatewayAddr,
+        report: signedReport,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        gasConfig: { gasLimit: "1000000" } as any,
       }).result()
-      console.log(`[METRICORE] proposeAction SUCCESS`)
+      console.log("[METRICORE] proposeAction SUCCESS")
     } catch (e) {
       console.error("[METRICORE] proposeAction FAILED:", e)
     }
@@ -125,22 +123,21 @@ function onRiskCheck(runtime: Runtime<Config>): Record<string, never> {
   }
 
   // 8. ALWAYS update price snapshot at end of every run
+  //    updatePriceSnapshot has no access control — callable by anyone
   const snapshotCallData = encodeFunctionData({
     abi: gatewayABI,
     functionName: "updatePriceSnapshot",
     args: [ETH_MOCK_ADDRESS, BigInt(Math.round(marketData.currentPrice * 100))],
   })
 
-  console.log("[METRICORE] Attempting updatePriceSnapshot from:", sentinelAddr)
   try {
     evmClient.callContract(runtime, {
       call: encodeCallMsg({
-        from: sentinelAddr as `0x${string}`,
+        from: "0x0000000000000000000000000000000000000000",
         to: gatewayAddr as `0x${string}`,
         data: snapshotCallData,
       }),
     }).result()
-    console.log(`[METRICORE] updatePriceSnapshot SUCCESS`)
   } catch (e) {
     console.error("[METRICORE] updatePriceSnapshot FAILED:", e)
   }

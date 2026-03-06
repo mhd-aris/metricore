@@ -84,8 +84,8 @@ Every file that directly uses Chainlink CRE SDK or infrastructure:
 
 | Contract | Address | Verified |
 |---|---|---|
-| MockInvalendProtocol | [`0x6912ded3394Af5B02edf63e4A05547d5d810C298`](https://sepolia.basescan.org/address/0x6912ded3394Af5B02edf63e4A05547d5d810C298) | ✅ Basescan |
-| MetricoreGateway | [`0x462a32097a1A89b02fAD4AE0613852Cf0a3b198a`](https://sepolia.basescan.org/address/0x462a32097a1A89b02fAD4AE0613852Cf0a3b198a) | ✅ Basescan |
+| MockInvalendProtocol | [`0x59Ff05691A0F0c0E5A8bEA315aA8eBcB934fffDf`](https://sepolia.basescan.org/address/0x59Ff05691A0F0c0E5A8bEA315aA8eBcB934fffDf) | ✅ Basescan |
+| MetricoreGateway | [`0x96965cBF49836DD971a5302d2E4fe5a8A78363B3`](https://sepolia.basescan.org/address/0x96965cBF49836DD971a5302d2E4fe5a8A78363B3) | ✅ Basescan |
 
 **Seeded State:**
 
@@ -161,8 +161,8 @@ cre workflow simulate ./workflow -e .env
 CRE_ETH_PRIVATE_KEY=<deployer_private_key>
 CRE_TARGET=local-settings
 ALERT_WEBHOOK_URL=http://localhost:3001/alert
-GATEWAY_ADDRESS=0x462a32097a1A89b02fAD4AE0613852Cf0a3b198a
-PROTOCOL_ADDRESS=0x6912ded3394Af5B02edf63e4A05547d5d810C298
+GATEWAY_ADDRESS=0x96965cBF49836DD971a5302d2E4fe5a8A78363B3
+PROTOCOL_ADDRESS=0x59Ff05691A0F0c0E5A8bEA315aA8eBcB934fffDf
 BASE_SEPOLIA_RPC_URL=https://sepolia.base.org
 ```
 

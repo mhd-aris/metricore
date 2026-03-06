@@ -23,17 +23,20 @@ contract DeployScript is Script {
         // 1. Deploy MockInvalendProtocol (msg.sender = deployer = owner)
         MockInvalendProtocol protocol = new MockInvalendProtocol(msg.sender);
 
-        // 2. Deploy MetricoreGateway (msg.sender = deployer = owner)
-        MetricoreGateway gateway = new MetricoreGateway(msg.sender);
+        // 2. Deploy MetricoreGateway with Keystone Forwarder address
+        //    Simulation forwarder: 0x82300bd7c3958625581cc2f77bc6464dcecdf3e5
+        //    Production forwarder: 0xF8344CFd5c43616a4366C34E3EEE75af79a74482
+        address forwarderAddr = vm.envOr(
+            "FORWARDER_ADDRESS",
+            address(0x82300bd7c3958625581cc2F77bC6464dcEcDF3e5)
+        );
+        MetricoreGateway gateway = new MetricoreGateway(msg.sender, forwarderAddr);
 
         // 3. Wire protocol → gateway (protocol accepts actions from this gateway)
         protocol.setGateway(address(gateway));
 
         // 4. Wire gateway → protocol (gateway reads from and acts on this protocol)
         gateway.setProtocol(address(protocol));
-
-        // NOTE: gateway.setSentinel() must be called separately after the
-        // CRE workflow signing address is known (Task 4.1).
 
         vm.stopBroadcast();
 

@@ -33,6 +33,11 @@ export const BASE_SEPOLIA_CHAIN_ID = 84532
 // WETH on Base — used as the ETH price oracle asset key
 export const ETH_MOCK_ADDRESS = "0x4200000000000000000000000000000000000006"
 
+// ── Keystone Forwarder addresses ──────────────────────────────────────────────
+
+export const MOCK_FORWARDER_ADDRESS = "0x82300bd7c3958625581cc2f77bc6464dcecdf3e5"
+export const PROD_FORWARDER_ADDRESS = "0xF8344CFd5c43616a4366C34E3EEE75af79a74482"
+
 // ── External API URLs ─────────────────────────────────────────────────────────
 
 export const COINGECKO_ETH_URL =

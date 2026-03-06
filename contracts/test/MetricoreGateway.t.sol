@@ -7,44 +7,42 @@ import {MetricoreGateway} from "../src/MetricoreGateway.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
 contract MetricoreGatewayTest is Test {
-    // ── Event mirrors (required to emit in vm.expectEmit) ─────────────────────
+    // ── Event mirrors ─────────────────────────────────────────────────────────
     event ActionProposed(bytes32 indexed actionType, address indexed proposer);
     event ActionExecuted(bytes32 indexed actionType, bytes actionData);
     event ActionRejected(bytes32 indexed actionType, string reason);
     event SnapshotUpdated(address indexed asset, uint256 price, uint256 timestamp);
 
-    // ── Action type constants (mirrors MetricoreGateway — avoids getter calls
-    //    that would consume vm.prank before proposeAction is reached) ──────────
+    // ── Action type constants ─────────────────────────────────────────────────
     bytes32 constant REDUCE_LEVERAGE = keccak256("REDUCE_LEVERAGE");
     bytes32 constant PAUSE_POSITIONS = keccak256("PAUSE_POSITIONS");
 
     MockInvalendProtocol protocol;
     MetricoreGateway     gateway;
 
-    address sentinel;
+    address forwarder;
 
     uint256 constant PREFUNDED   = 800_000e6;
     uint256 constant LIQ_THRESH  = 640_000e6; // PREFUNDED × 0.8
     address constant WETH        = 0x4200000000000000000000000000000000000006;
 
+    // Simulation forwarder address
+    address constant SIM_FORWARDER = 0x82300bd7c3958625581cc2F77bC6464dcEcDF3e5;
+
     function setUp() public {
-        // Foundry default block.timestamp = 1. Advance so lastActionTimestamp=0
-        // doesn't trigger false OnCooldown (block.timestamp < 0 + 1800).
         vm.warp(1 days);
 
-        sentinel = makeAddr("sentinel");
+        forwarder = SIM_FORWARDER;
 
-        // Deploy
+        // Deploy — constructor now takes (owner, forwarder)
         protocol = new MockInvalendProtocol(address(this));
-        gateway  = new MetricoreGateway(address(this));
+        gateway  = new MetricoreGateway(address(this), forwarder);
 
         // Wire
         protocol.setGateway(address(gateway));
         gateway.setProtocol(address(protocol));
-        gateway.setSentinel(sentinel);
 
         // Seed CRITICAL position: HF = 7800 bps (below 8000 threshold)
-        // collateral = 7800 × 640_000e6 / 10_000 = 499_200e6
         uint256 critCollateral = 7800 * LIQ_THRESH / 10_000;
         protocol.addPosition(address(0xCAFE), critCollateral, PREFUNDED);
 
@@ -54,17 +52,21 @@ contract MetricoreGatewayTest is Test {
 
     // ── Helpers ───────────────────────────────────────────────────────────────
 
-    /// @dev Sets pool utilization to `bps` basis points (totalLiquidity fixed at 1M USDC).
     function _setUtilization(uint256 bps) internal {
         uint256 liquidity = 1_000_000e6;
         uint256 borrowed  = liquidity * bps / 10_000;
         protocol.setPoolStats(liquidity, borrowed);
     }
 
+    /// @dev Encode report payload: abi.encode(bytes32 actionType)
+    function _encodeReport(bytes32 actionType) internal pure returns (bytes memory) {
+        return abi.encode(actionType);
+    }
+
     // ── Price Snapshot ────────────────────────────────────────────────────────
 
     function test_UpdatePriceSnapshot_StoresCorrectly() public {
-        vm.prank(sentinel);
+        // updatePriceSnapshot has no access control — anyone can call it
         gateway.updatePriceSnapshot(WETH, 300_000); // $3000.00
 
         (uint256 price, uint256 ts) = gateway.lastPriceSnapshot(WETH);
@@ -72,104 +74,105 @@ contract MetricoreGatewayTest is Test {
         assertEq(ts, block.timestamp);
     }
 
-    function test_UpdatePriceSnapshot_OnlySentinel() public {
-        vm.expectRevert(MetricoreGateway.NotSentinel.selector);
-        vm.prank(address(1));
+    function test_UpdatePriceSnapshot_EmitsEvent() public {
+        vm.expectEmit(true, false, false, true, address(gateway));
+        emit SnapshotUpdated(WETH, 300_000, block.timestamp);
+
         gateway.updatePriceSnapshot(WETH, 300_000);
     }
 
-    // ── Propose: success cases ────────────────────────────────────────────────
+    // ── onReport: success cases ───────────────────────────────────────────────
 
-    function test_ProposeReduceLeverage_Succeeds() public {
+    function test_OnReport_ReduceLeverage_Succeeds() public {
         // setUp util = 9100 bps > 8500 → REDUCE_LEVERAGE threshold met
-        bytes memory data = abi.encode(uint256(3));
-
         vm.expectEmit(true, false, false, true, address(gateway));
-        emit ActionExecuted(REDUCE_LEVERAGE, data);
+        emit ActionExecuted(REDUCE_LEVERAGE, abi.encode(uint256(3)));
 
-        vm.prank(sentinel);
-        gateway.proposeAction(REDUCE_LEVERAGE, data);
+        vm.prank(forwarder);
+        gateway.onReport("", _encodeReport(REDUCE_LEVERAGE));
 
         assertEq(protocol.maxLeverageTier(), 3);
     }
 
-    function test_ProposePausePositions_Succeeds() public {
+    function test_OnReport_PausePositions_Succeeds() public {
         // setUp: util=9100 bps > 9000 AND position HF=7800 < 8000 → both criteria met
         vm.expectEmit(true, false, false, true, address(gateway));
         emit ActionExecuted(PAUSE_POSITIONS, "");
 
-        vm.prank(sentinel);
-        gateway.proposeAction(PAUSE_POSITIONS, "");
+        vm.prank(forwarder);
+        gateway.onReport("", _encodeReport(PAUSE_POSITIONS));
 
         assertTrue(protocol.newPositionsPaused());
     }
 
-    // ── Propose: cooldown ─────────────────────────────────────────────────────
+    function test_OnReport_EmitsActionProposed() public {
+        vm.expectEmit(true, true, false, false, address(gateway));
+        emit ActionProposed(PAUSE_POSITIONS, forwarder);
 
-    function test_ProposeAction_Cooldown_HardReverts() public {
-        bytes memory data = abi.encode(uint256(3));
-
-        // First propose succeeds
-        vm.prank(sentinel);
-        gateway.proposeAction(REDUCE_LEVERAGE, data);
-
-        // Second propose immediately → hard revert
-        vm.expectRevert(MetricoreGateway.OnCooldown.selector);
-        vm.prank(sentinel);
-        gateway.proposeAction(REDUCE_LEVERAGE, data);
+        vm.prank(forwarder);
+        gateway.onReport("", _encodeReport(PAUSE_POSITIONS));
     }
 
-    function test_ProposeAction_CooldownExpires() public {
-        // First propose
-        vm.prank(sentinel);
-        gateway.proposeAction(PAUSE_POSITIONS, "");
+    // ── onReport: cooldown ────────────────────────────────────────────────────
+
+    function test_OnReport_Cooldown_HardReverts() public {
+        // First report succeeds
+        vm.prank(forwarder);
+        gateway.onReport("", _encodeReport(REDUCE_LEVERAGE));
+
+        // Second report immediately → hard revert
+        vm.expectRevert(MetricoreGateway.OnCooldown.selector);
+        vm.prank(forwarder);
+        gateway.onReport("", _encodeReport(REDUCE_LEVERAGE));
+    }
+
+    function test_OnReport_CooldownExpires() public {
+        vm.prank(forwarder);
+        gateway.onReport("", _encodeReport(PAUSE_POSITIONS));
 
         // Warp 31 minutes — past the 30-minute cooldown window
         vm.warp(block.timestamp + 31 minutes);
 
-        // Second propose should succeed (cooldown expired, threshold still met)
         vm.expectEmit(true, false, false, false, address(gateway));
         emit ActionExecuted(PAUSE_POSITIONS, "");
 
-        vm.prank(sentinel);
-        gateway.proposeAction(PAUSE_POSITIONS, "");
+        vm.prank(forwarder);
+        gateway.onReport("", _encodeReport(PAUSE_POSITIONS));
 
         assertEq(gateway.lastActionTimestamp(PAUSE_POSITIONS), block.timestamp);
     }
 
-    // ── Propose: soft rejection ───────────────────────────────────────────────
+    // ── onReport: soft rejection ──────────────────────────────────────────────
 
-    function test_ProposeAction_ThresholdNotMet_SoftRejects() public {
-        // Set safe utilization (5000 bps = 50%) — below 8500 bps REDUCE_LEVERAGE threshold
+    function test_OnReport_ThresholdNotMet_SoftRejects() public {
+        // Set safe utilization (50%) — below 8500 bps REDUCE_LEVERAGE threshold
         _setUtilization(5000);
 
         uint256 tierBefore = protocol.maxLeverageTier();
 
-        // Expect ActionRejected event (soft rejection — tx must NOT revert)
         vm.expectEmit(true, false, false, false, address(gateway));
         emit ActionRejected(REDUCE_LEVERAGE, "");
 
-        vm.prank(sentinel);
-        gateway.proposeAction(REDUCE_LEVERAGE, abi.encode(uint256(3)));
+        vm.prank(forwarder);
+        gateway.onReport("", _encodeReport(REDUCE_LEVERAGE));
 
-        // Action was NOT executed — leverage tier unchanged
         assertEq(protocol.maxLeverageTier(), tierBefore);
     }
 
     // ── Access control ────────────────────────────────────────────────────────
 
-    function test_ProposeAction_OnlySentinel() public {
-        vm.expectRevert(MetricoreGateway.NotSentinel.selector);
+    function test_OnReport_OnlyForwarder() public {
+        vm.expectRevert(MetricoreGateway.NotForwarder.selector);
         vm.prank(address(1));
-        gateway.proposeAction(PAUSE_POSITIONS, "");
+        gateway.onReport("", _encodeReport(PAUSE_POSITIONS));
     }
 
-    function test_SetSentinel_OnlyOwner() public {
+    function test_SetForwarder_OnlyOwner() public {
         vm.expectRevert(
             abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, address(1))
         );
         vm.prank(address(1));
-        gateway.setSentinel(address(2));
+        gateway.setForwarder(address(2));
     }
 
     function test_SetProtocol_OnlyOwner() public {
@@ -178,5 +181,10 @@ contract MetricoreGatewayTest is Test {
         );
         vm.prank(address(1));
         gateway.setProtocol(address(2));
+    }
+
+    function test_Constructor_ZeroForwarder_Reverts() public {
+        vm.expectRevert(MetricoreGateway.ZeroAddress.selector);
+        new MetricoreGateway(address(this), address(0));
     }
 }

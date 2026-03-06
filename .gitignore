@@ -1,7 +1,6 @@
 # Environment & secrets
 .env
 .env.*
-secrets.yaml
 !.env.example
 
 # CRE build artifacts
