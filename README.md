@@ -69,11 +69,11 @@ Every file that directly uses Chainlink CRE SDK or infrastructure:
 
 | File | Chainlink Usage |
 |---|---|
-| [workflow/src/index.ts](workflow/src/index.ts) | `Runner.newRunner()`, `handler()`, `CronCapability` — main orchestrator |
+| [workflow/src/index.ts](workflow/src/index.ts) | `Runner.newRunner()`, `handler()`, `CronCapability`, `EVMClient.callContract()` for `proposeAction` + `updatePriceSnapshot` |
 | [workflow/src/modules/positionHealth.ts](workflow/src/modules/positionHealth.ts) | `EVMClient.callContract()` via `encodeCallMsg` — reads position health factors |
 | [workflow/src/modules/poolStress.ts](workflow/src/modules/poolStress.ts) | `EVMClient.callContract()` — reads pool utilization and liquidity stats |
 | [workflow/src/modules/marketCondition.ts](workflow/src/modules/marketCondition.ts) | `HTTPClient` inside `NodeRuntime` + `consensusMedianAggregation` — fetches CoinGecko + Fear & Greed |
-| [workflow/src/riskEngine.ts](workflow/src/riskEngine.ts) | `EVMClient.callContract()` — writes `proposeAction` and `updatePriceSnapshot` to Gateway |
+| [workflow/src/riskEngine.ts](workflow/src/riskEngine.ts) | Pure risk classification logic — consumed by `index.ts` for action determination |
 | [workflow/src/alerting.ts](workflow/src/alerting.ts) | `HTTPClient` inside `NodeRuntime` + `consensusIdenticalAggregation` — fire-and-forget webhook |
 | [workflow/workflow.yaml](workflow/workflow.yaml) | CRE workflow config — entry point, config path, secrets path |
 | [project.yaml](project.yaml) | CRE project config — RPC endpoints for Base Sepolia |

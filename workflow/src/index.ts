@@ -52,6 +52,8 @@ function onRiskCheck(runtime: Runtime<Config>): Record<string, never> {
   // 1. Load secrets
   const gatewayAddr = runtime.getSecret({ id: "GATEWAY_ADDRESS" }).result().value
   const protocolAddr = runtime.getSecret({ id: "PROTOCOL_ADDRESS" }).result().value
+  const sentinelAddr = runtime.getSecret({ id: "SENTINEL_ADDRESS" }).result().value
+  console.log("[METRICORE] sentinelAddr:", sentinelAddr)
 
   // 2. Create EVMClient for Base Sepolia
   const evmClient = new EVMClient(
@@ -105,13 +107,19 @@ function onRiskCheck(runtime: Runtime<Config>): Record<string, never> {
       args: [actionType, actionData],
     })
 
-    evmClient.callContract(runtime, {
-      call: encodeCallMsg({
-        from: "0x0000000000000000000000000000000000000000",
-        to: gatewayAddr as `0x${string}`,
-        data: writeCallData,
-      }),
-    }).result()
+    console.log("[METRICORE] Attempting proposeAction from:", sentinelAddr)
+    try {
+      evmClient.callContract(runtime, {
+        call: encodeCallMsg({
+          from: sentinelAddr as `0x${string}`,
+          to: gatewayAddr as `0x${string}`,
+          data: writeCallData,
+        }),
+      }).result()
+      console.log(`[METRICORE] proposeAction SUCCESS`)
+    } catch (e) {
+      console.error("[METRICORE] proposeAction FAILED:", e)
+    }
 
     console.log(`[METRICORE] Proposed action: ${action}`)
   }
@@ -123,13 +131,19 @@ function onRiskCheck(runtime: Runtime<Config>): Record<string, never> {
     args: [ETH_MOCK_ADDRESS, BigInt(Math.round(marketData.currentPrice * 100))],
   })
 
-  evmClient.callContract(runtime, {
-    call: encodeCallMsg({
-      from: "0x0000000000000000000000000000000000000000",
-      to: gatewayAddr as `0x${string}`,
-      data: snapshotCallData,
-    }),
-  }).result()
+  console.log("[METRICORE] Attempting updatePriceSnapshot from:", sentinelAddr)
+  try {
+    evmClient.callContract(runtime, {
+      call: encodeCallMsg({
+        from: sentinelAddr as `0x${string}`,
+        to: gatewayAddr as `0x${string}`,
+        data: snapshotCallData,
+      }),
+    }).result()
+    console.log(`[METRICORE] updatePriceSnapshot SUCCESS`)
+  } catch (e) {
+    console.error("[METRICORE] updatePriceSnapshot FAILED:", e)
+  }
 
   console.log(`[METRICORE] Price snapshot updated: $${marketData.currentPrice}`)
 

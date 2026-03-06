@@ -1,0 +1,46 @@
+# Environment & secrets
+.env
+.env.*
+secrets.yaml
+!.env.example
+
+# CRE build artifacts
+workflow/src/.cre_build_tmp.js
+workflow/.cre_build/
+
+# Foundry
+contracts/cache/
+contracts/out/
+contracts/broadcast/*/84532/run-latest.json
+
+# Node
+node_modules/
+workflow/node_modules/
+backend/node_modules/
+
+# OS
+.DS_Store
+
+# Environment & secrets
+.env
+.env.*
+secrets.yaml
+!.env.example
+
+# CRE build artifacts
+workflow/src/.cre_build_tmp.js
+workflow/.cre_build/
+
+# Foundry
+contracts/cache/
+contracts/out/
+contracts/broadcast/*/84532/run-latest.json
+
+# Node
+node_modules/
+workflow/node_modules/
+backend/node_modules/
+
+# OS
+.DS_Store
+
