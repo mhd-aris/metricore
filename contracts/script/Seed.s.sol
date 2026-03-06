@@ -58,6 +58,9 @@ contract SeedScript is Script {
 
         vm.startBroadcast();
 
+        protocol.resetPositions();
+        console.log("Positions reset.");
+
         // ── 3 SAFE positions ─────────────────────────────────────────────────
 
         protocol.addPosition(

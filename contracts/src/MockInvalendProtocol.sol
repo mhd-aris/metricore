@@ -42,6 +42,7 @@ contract MockInvalendProtocol is Ownable {
     event PositionsResumed();
     event LeverageReduced(uint256 previousTier, uint256 newTier);
     event GatewaySet(address indexed gateway);
+    event PositionsReset();
 
     // ─────────────────────────────────────────────────────────────────────────
     // Errors
@@ -219,5 +220,11 @@ contract MockInvalendProtocol is Ownable {
     {
         if (positionId >= positions.length) revert InvalidPositionId();
         positions[positionId].collateralAmount = newCollateral;
+    }
+
+    /// @notice Clears all positions. Used by Seed.s.sol for idempotent re-seeding.
+    function resetPositions() external onlyOwner {
+        delete positions;
+        emit PositionsReset();
     }
 }
