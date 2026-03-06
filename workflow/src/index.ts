@@ -4,11 +4,12 @@
 // Reads protocol state → classifies risk → alerts → proposes on-chain action.
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { type Abi, encodeFunctionData } from "viem"
+import { encodeFunctionData } from "viem"
 import {
   handler,
   EVMClient,
   CronCapability,
+  Runner,
   type Runtime,
   encodeCallMsg,
 } from "@chainlink/cre-sdk"
@@ -21,24 +22,29 @@ import { sendAlert } from "./alerting.js"
 import { ETH_MOCK_ADDRESS, ACTION_TYPES } from "./constants.js"
 import { encodeReduceLeverage, encodePausePositions } from "./utils.js"
 import type { Config } from "./types.js"
+import { abi as protocolABI } from "./abis/MockInvalendProtocol.js"
+import { abi as gatewayABI } from "./abis/MetricoreGateway.js"
 
-// ── Placeholder ABIs — replace with JSON imports after `forge build` ──────────
-// workflow/src/abis/ will be populated by copying contracts/out/ artifacts.
+// ── Workflow initializer — returns handler array for Runner ───────────────────
 
-const protocolABI: Abi = []
-const gatewayABI: Abi = []
+function initWorkflow(config: Config) {
+  const cronCap = new CronCapability()
+  return [
+    handler(
+      cronCap.trigger({ schedule: config.schedule }),
+      onRiskCheck,
+    ),
+  ]
+}
 
-// ── EVMClient: Base Sepolia chain selector ────────────────────────────────────
+// ── WASM entry point — required by CRE WASM compiler ─────────────────────────
 
-const BASE_SEPOLIA_SELECTOR =
-  EVMClient.SUPPORTED_CHAIN_SELECTORS["ethereum-testnet-sepolia-base-1"]
+export async function main() {
+  const runner = await Runner.newRunner<Config>()
+  await runner.run(initWorkflow)
+}
 
-// ── Handler registration ──────────────────────────────────────────────────────
-
-handler(
-  new CronCapability().trigger({ schedule: "*/5 * * * *" }),
-  onRiskCheck,
-)
+main()
 
 // ── Main workflow function ────────────────────────────────────────────────────
 
@@ -48,7 +54,9 @@ function onRiskCheck(runtime: Runtime<Config>): Record<string, never> {
   const protocolAddr = runtime.getSecret({ id: "PROTOCOL_ADDRESS" }).result().value
 
   // 2. Create EVMClient for Base Sepolia
-  const evmClient = new EVMClient(BASE_SEPOLIA_SELECTOR)
+  const evmClient = new EVMClient(
+    EVMClient.SUPPORTED_CHAIN_SELECTORS["ethereum-testnet-sepolia-base-1"],
+  )
 
   // 3. Run all three risk checks sequentially
   //    (checkMarketCondition internally initiates NodeRuntime fetches before resolving)

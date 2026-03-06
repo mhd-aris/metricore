@@ -1,0 +1,14 @@
+# ==========================================================================
+# CRE WORKFLOW SETTINGS FILE — Metricore
+# ==========================================================================
+# Decentralized risk monitoring for under-collateralized DeFi lending.
+# Runs every 5 minutes: reads protocol state → classifies risk →
+# alerts backend → proposes on-chain action via MetricoreGateway.
+
+local-settings:
+  user-workflow:
+    workflow-name: "metricore"
+  workflow-artifacts:
+    workflow-path: "./src/index.ts"
+    config-path: "./config.json"
+    secrets-path: "../secrets.yaml"

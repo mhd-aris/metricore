@@ -1,0 +1,825 @@
+{
+  "abi": [
+    {
+      "type": "constructor",
+      "inputs": [
+        { "name": "initialOwner", "type": "address", "internalType": "address" }
+      ],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "addPosition",
+      "inputs": [
+        { "name": "trader", "type": "address", "internalType": "address" },
+        { "name": "collateral", "type": "uint256", "internalType": "uint256" },
+        { "name": "prefunded", "type": "uint256", "internalType": "uint256" }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "gateway",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "getActivePositions",
+      "inputs": [
+        { "name": "start", "type": "uint256", "internalType": "uint256" },
+        { "name": "limit", "type": "uint256", "internalType": "uint256" }
+      ],
+      "outputs": [
+        {
+          "name": "batch",
+          "type": "tuple[]",
+          "internalType": "struct MockInvalendProtocol.Position[]",
+          "components": [
+            { "name": "id", "type": "uint256", "internalType": "uint256" },
+            { "name": "trader", "type": "address", "internalType": "address" },
+            {
+              "name": "collateralAmount",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "prefundedAmount",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            { "name": "isActive", "type": "bool", "internalType": "bool" }
+          ]
+        },
+        { "name": "total", "type": "uint256", "internalType": "uint256" }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "getHealthFactor",
+      "inputs": [
+        { "name": "positionId", "type": "uint256", "internalType": "uint256" }
+      ],
+      "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "getPoolStats",
+      "inputs": [],
+      "outputs": [
+        { "name": "utilization", "type": "uint256", "internalType": "uint256" },
+        { "name": "liquidity", "type": "uint256", "internalType": "uint256" },
+        { "name": "borrowed", "type": "uint256", "internalType": "uint256" }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "maxLeverageTier",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "newPositionsPaused",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "owner",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "pauseNewPositions",
+      "inputs": [],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "reduceMaxLeverage",
+      "inputs": [
+        { "name": "newTier", "type": "uint256", "internalType": "uint256" }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "renounceOwnership",
+      "inputs": [],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "resumeNewPositions",
+      "inputs": [],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "setGateway",
+      "inputs": [
+        { "name": "_gateway", "type": "address", "internalType": "address" }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "setPoolStats",
+      "inputs": [
+        {
+          "name": "_totalLiquidity",
+          "type": "uint256",
+          "internalType": "uint256"
+        },
+        {
+          "name": "_totalBorrowed",
+          "type": "uint256",
+          "internalType": "uint256"
+        }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "setPositionCollateral",
+      "inputs": [
+        { "name": "positionId", "type": "uint256", "internalType": "uint256" },
+        {
+          "name": "newCollateral",
+          "type": "uint256",
+          "internalType": "uint256"
+        }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "totalBorrowed",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "totalLiquidity",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "transferOwnership",
+      "inputs": [
+        { "name": "newOwner", "type": "address", "internalType": "address" }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "event",
+      "name": "GatewaySet",
+      "inputs": [
+        {
+          "name": "gateway",
+          "type": "address",
+          "indexed": true,
+          "internalType": "address"
+        }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "LeverageReduced",
+      "inputs": [
+        {
+          "name": "previousTier",
+          "type": "uint256",
+          "indexed": false,
+          "internalType": "uint256"
+        },
+        {
+          "name": "newTier",
+          "type": "uint256",
+          "indexed": false,
+          "internalType": "uint256"
+        }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "OwnershipTransferred",
+      "inputs": [
+        {
+          "name": "previousOwner",
+          "type": "address",
+          "indexed": true,
+          "internalType": "address"
+        },
+        {
+          "name": "newOwner",
+          "type": "address",
+          "indexed": true,
+          "internalType": "address"
+        }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "PositionAdded",
+      "inputs": [
+        {
+          "name": "id",
+          "type": "uint256",
+          "indexed": true,
+          "internalType": "uint256"
+        },
+        {
+          "name": "trader",
+          "type": "address",
+          "indexed": true,
+          "internalType": "address"
+        },
+        {
+          "name": "collateral",
+          "type": "uint256",
+          "indexed": false,
+          "internalType": "uint256"
+        },
+        {
+          "name": "prefunded",
+          "type": "uint256",
+          "indexed": false,
+          "internalType": "uint256"
+        }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "PositionsPaused",
+      "inputs": [],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "PositionsResumed",
+      "inputs": [],
+      "anonymous": false
+    },
+    { "type": "error", "name": "GatewayNotSet", "inputs": [] },
+    { "type": "error", "name": "InvalidLeverageTier", "inputs": [] },
+    { "type": "error", "name": "InvalidPositionId", "inputs": [] },
+    { "type": "error", "name": "NotGateway", "inputs": [] },
+    {
+      "type": "error",
+      "name": "OwnableInvalidOwner",
+      "inputs": [
+        { "name": "owner", "type": "address", "internalType": "address" }
+      ]
+    },
+    {
+      "type": "error",
+      "name": "OwnableUnauthorizedAccount",
+      "inputs": [
+        { "name": "account", "type": "address", "internalType": "address" }
+      ]
+    }
+  ],
+  "bytecode": {
+    "object": "0x608060405264e8d4a5100060025564975704e40060035560056004819055805460ff19169055348015610030575f80fd5b50604051610d1a380380610d1a83398101604081905261004f916100dc565b806001600160a01b03811661007d57604051631e4fbdf760e01b81525f600482015260240160405180910390fd5b6100868161008d565b5050610109565b5f80546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b5f602082840312156100ec575f80fd5b81516001600160a01b0381168114610102575f80fd5b9392505050565b610c04806101165f395ff3fe608060405234801561000f575f80fd5b5060043610610111575f3560e01c80637390ba011161009e578063b8b498a21161006e578063b8b498a214610210578063bbb8518814610231578063cff07fd114610254578063f2fde38b14610267578063fa401ae81461027a575f80fd5b80637390ba01146101d25780638da5cb5b146101da57806390646b4a146101ea57806395287772146101fd575f80fd5b80631a72bfa5116100e45780631a72bfa5146101915780633fa017f3146101a65780634c19386c146101b95780636a62e356146101c2578063715018a6146101ca575f80fd5b80630127b5af14610115578063116191b61461013757806315770f921461016757806317845c691461017e575b5f80fd5b6005546101229060ff1681565b60405190151581526020015b60405180910390f35b60055461014f9061010090046001600160a01b031681565b6040516001600160a01b03909116815260200161012e565b61017060025481565b60405190815260200161012e565b61017061018c366004610a0a565b610283565b6101a461019f366004610a21565b610337565b005b6101a46101b4366004610a21565b61034a565b61017060035481565b6101a461039f565b6101a46103de565b6101a46103f1565b5f546001600160a01b031661014f565b6101a46101f8366004610a5c565b61042d565b6101a461020b366004610a0a565b610486565b61022361021e366004610a21565b610500565b60405161012e929190610a7c565b61023961070e565b6040805193845260208401929092529082015260600161012e565b6101a4610262366004610afb565b610747565b6101a4610275366004610a5c565b6108ba565b61017060045481565b6001545f9082106102a757604051637bb0b62160e01b815260040160405180910390fd5b5f600183815481106102bb576102bb610b2b565b5f9182526020909120600590910201600481015490915060ff1615806102e357506003810154155b156102f057505f92915050565b5f6127108260030154611f406103069190610b53565b6103109190610b70565b90508082600201546127106103259190610b53565b61032f9190610b70565b949350505050565b61033f6108fc565b600291909155600355565b6103526108fc565b600154821061037457604051637bb0b62160e01b815260040160405180910390fd5b806001838154811061038857610388610b2b565b905f5260205f209060050201600201819055505050565b6103a7610928565b6005805460ff191660011790556040517f10e90b0ff168166ccde1e22c05dbdfbc686c8ce2d488edc3cb8a34fc55b5f19d905f90a1565b6103e66108fc565b6103ef5f610986565b565b6103f9610928565b6005805460ff191690556040517f2434061b4e11174e7c27545336c173e5646d471ad070f7bb5538d8bf4138dced905f90a1565b6104356108fc565b60058054610100600160a81b0319166101006001600160a01b038416908102919091179091556040517f5317fa585931182194fed99f2ea5f2efd38af9cff9724273704c8501c521e34b905f90a250565b61048e610928565b80158061049d57506004548110155b156104bb5760405163059de65560e51b815260040160405180910390fd5b600480549082905560408051828152602081018490527fa2a5a449f450275179059f0518b0dd3f2b7238f01953eba032dbddfb54a5c839910160405180910390a15050565b6001546060908084101580610513575082155b1561055057604080515f8082526020820190925290610548565b6105356109d5565b81526020019060019003908161052d5790505b509150610707565b5f8161055c8587610ba3565b116105705761056b8486610ba3565b610572565b815b90505f855b828110156105cd576001818154811061059257610592610b2b565b5f91825260209091206004600590920201015460ff16156105bb57816105b781610bb6565b9250505b806105c581610bb6565b915050610577565b508067ffffffffffffffff8111156105e7576105e7610b8f565b60405190808252806020026020018201604052801561062057816020015b61060d6109d5565b8152602001906001900390816106055790505b5093505f865b83811015610702576001818154811061064157610641610b2b565b5f91825260209091206004600590920201015460ff16156106f0576001818154811061066f5761066f610b2b565b5f9182526020918290206040805160a08101825260059093029091018054835260018101546001600160a01b0316938301939093526002830154908201526003820154606082015260049091015460ff161515608082015286836106d281610bb6565b9450815181106106e4576106e4610b2b565b60200260200101819052505b806106fa81610bb6565b915050610626565b505050505b9250929050565b6002546003545f9190811561073e5760025460035461072f90612710610b53565b6107399190610b70565b610740565b5f5b9250909192565b61074f6108fc565b600180546040805160a0810182528281526001600160a01b0387811660208084018281528486018a8152606086018a8152608087018a8152898b018b555f9a909a5295517fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf660058a029081019190915591517fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf7830180546001600160a01b031916919096161790945592517fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf884015592517fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf983015594517fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cfa909101805460ff1916911515919091179055815186815290810185905291929183917fe09c1fea8318354f0053fdd68105c144cc6c6989d6518c5934868930d966ed20910160405180910390a350505050565b6108c26108fc565b6001600160a01b0381166108f057604051631e4fbdf760e01b81525f60048201526024015b60405180910390fd5b6108f981610986565b50565b5f546001600160a01b031633146103ef5760405163118cdaa760e01b81523360048201526024016108e7565b60055461010090046001600160a01b03166109565760405163802c185360e01b815260040160405180910390fd5b60055461010090046001600160a01b031633146103ef5760405163e7e601db60e01b815260040160405180910390fd5b5f80546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b6040518060a001604052805f81526020015f6001600160a01b031681526020015f81526020015f81526020015f151581525090565b5f60208284031215610a1a575f80fd5b5035919050565b5f8060408385031215610a32575f80fd5b50508035926020909101359150565b80356001600160a01b0381168114610a57575f80fd5b919050565b5f60208284031215610a6c575f80fd5b610a7582610a41565b9392505050565b604080825283518282018190525f9190606090818501906020808901865b83811015610ae757815180518652838101516001600160a01b0316848701528781015188870152868101518787015260809081015115159086015260a09094019390820190600101610a9a565b505095909501959095525092949350505050565b5f805f60608486031215610b0d575f80fd5b610b1684610a41565b95602085013595506040909401359392505050565b634e487b7160e01b5f52603260045260245ffd5b634e487b7160e01b5f52601160045260245ffd5b8082028115828204841417610b6a57610b6a610b3f565b92915050565b5f82610b8a57634e487b7160e01b5f52601260045260245ffd5b500490565b634e487b7160e01b5f52604160045260245ffd5b80820180821115610b6a57610b6a610b3f565b5f60018201610bc757610bc7610b3f565b506001019056fea264697066735822122077203a07f2932136e1c1fda60c3bd5e11a64e987c12fa1d16ea16d72bd4222fa64736f6c63430008140033",
+    "sourceMap": "398:10926:19:-:0;;;1681:11;1649:43;;1748:9;1714:43;;1829:1;1796:34;;;;1836:41;;-1:-1:-1;;1836:41:19;;;4433:58;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;4475:12;-1:-1:-1;;;;;1273:26:15;;1269:95;;1322:31;;-1:-1:-1;;;1322:31:15;;1350:1;1322:31;;;455:51:20;428:18;;1322:31:15;;;;;;;1269:95;1373:32;1392:12;1373:18;:32::i;:::-;1225:187;4433:58:19;398:10926;;2912:187:15;2985:16;3004:6;;-1:-1:-1;;;;;3020:17:15;;;-1:-1:-1;;;;;;3020:17:15;;;;;;3052:40;;3004:6;;;;;;;3052:40;;2985:16;3052:40;2975:124;2912:187;:::o;14:290:20:-;84:6;137:2;125:9;116:7;112:23;108:32;105:52;;;153:1;150;143:12;105:52;179:16;;-1:-1:-1;;;;;224:31:20;;214:42;;204:70;;270:1;267;260:12;204:70;293:5;14:290;-1:-1:-1;;;14:290:20:o;309:203::-;398:10926:19;;;;;;",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x608060405234801561000f575f80fd5b5060043610610111575f3560e01c80637390ba011161009e578063b8b498a21161006e578063b8b498a214610210578063bbb8518814610231578063cff07fd114610254578063f2fde38b14610267578063fa401ae81461027a575f80fd5b80637390ba01146101d25780638da5cb5b146101da57806390646b4a146101ea57806395287772146101fd575f80fd5b80631a72bfa5116100e45780631a72bfa5146101915780633fa017f3146101a65780634c19386c146101b95780636a62e356146101c2578063715018a6146101ca575f80fd5b80630127b5af14610115578063116191b61461013757806315770f921461016757806317845c691461017e575b5f80fd5b6005546101229060ff1681565b60405190151581526020015b60405180910390f35b60055461014f9061010090046001600160a01b031681565b6040516001600160a01b03909116815260200161012e565b61017060025481565b60405190815260200161012e565b61017061018c366004610a0a565b610283565b6101a461019f366004610a21565b610337565b005b6101a46101b4366004610a21565b61034a565b61017060035481565b6101a461039f565b6101a46103de565b6101a46103f1565b5f546001600160a01b031661014f565b6101a46101f8366004610a5c565b61042d565b6101a461020b366004610a0a565b610486565b61022361021e366004610a21565b610500565b60405161012e929190610a7c565b61023961070e565b6040805193845260208401929092529082015260600161012e565b6101a4610262366004610afb565b610747565b6101a4610275366004610a5c565b6108ba565b61017060045481565b6001545f9082106102a757604051637bb0b62160e01b815260040160405180910390fd5b5f600183815481106102bb576102bb610b2b565b5f9182526020909120600590910201600481015490915060ff1615806102e357506003810154155b156102f057505f92915050565b5f6127108260030154611f406103069190610b53565b6103109190610b70565b90508082600201546127106103259190610b53565b61032f9190610b70565b949350505050565b61033f6108fc565b600291909155600355565b6103526108fc565b600154821061037457604051637bb0b62160e01b815260040160405180910390fd5b806001838154811061038857610388610b2b565b905f5260205f209060050201600201819055505050565b6103a7610928565b6005805460ff191660011790556040517f10e90b0ff168166ccde1e22c05dbdfbc686c8ce2d488edc3cb8a34fc55b5f19d905f90a1565b6103e66108fc565b6103ef5f610986565b565b6103f9610928565b6005805460ff191690556040517f2434061b4e11174e7c27545336c173e5646d471ad070f7bb5538d8bf4138dced905f90a1565b6104356108fc565b60058054610100600160a81b0319166101006001600160a01b038416908102919091179091556040517f5317fa585931182194fed99f2ea5f2efd38af9cff9724273704c8501c521e34b905f90a250565b61048e610928565b80158061049d57506004548110155b156104bb5760405163059de65560e51b815260040160405180910390fd5b600480549082905560408051828152602081018490527fa2a5a449f450275179059f0518b0dd3f2b7238f01953eba032dbddfb54a5c839910160405180910390a15050565b6001546060908084101580610513575082155b1561055057604080515f8082526020820190925290610548565b6105356109d5565b81526020019060019003908161052d5790505b509150610707565b5f8161055c8587610ba3565b116105705761056b8486610ba3565b610572565b815b90505f855b828110156105cd576001818154811061059257610592610b2b565b5f91825260209091206004600590920201015460ff16156105bb57816105b781610bb6565b9250505b806105c581610bb6565b915050610577565b508067ffffffffffffffff8111156105e7576105e7610b8f565b60405190808252806020026020018201604052801561062057816020015b61060d6109d5565b8152602001906001900390816106055790505b5093505f865b83811015610702576001818154811061064157610641610b2b565b5f91825260209091206004600590920201015460ff16156106f0576001818154811061066f5761066f610b2b565b5f9182526020918290206040805160a08101825260059093029091018054835260018101546001600160a01b0316938301939093526002830154908201526003820154606082015260049091015460ff161515608082015286836106d281610bb6565b9450815181106106e4576106e4610b2b565b60200260200101819052505b806106fa81610bb6565b915050610626565b505050505b9250929050565b6002546003545f9190811561073e5760025460035461072f90612710610b53565b6107399190610b70565b610740565b5f5b9250909192565b61074f6108fc565b600180546040805160a0810182528281526001600160a01b0387811660208084018281528486018a8152606086018a8152608087018a8152898b018b555f9a909a5295517fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf660058a029081019190915591517fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf7830180546001600160a01b031916919096161790945592517fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf884015592517fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf983015594517fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cfa909101805460ff1916911515919091179055815186815290810185905291929183917fe09c1fea8318354f0053fdd68105c144cc6c6989d6518c5934868930d966ed20910160405180910390a350505050565b6108c26108fc565b6001600160a01b0381166108f057604051631e4fbdf760e01b81525f60048201526024015b60405180910390fd5b6108f981610986565b50565b5f546001600160a01b031633146103ef5760405163118cdaa760e01b81523360048201526024016108e7565b60055461010090046001600160a01b03166109565760405163802c185360e01b815260040160405180910390fd5b60055461010090046001600160a01b031633146103ef5760405163e7e601db60e01b815260040160405180910390fd5b5f80546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b6040518060a001604052805f81526020015f6001600160a01b031681526020015f81526020015f81526020015f151581525090565b5f60208284031215610a1a575f80fd5b5035919050565b5f8060408385031215610a32575f80fd5b50508035926020909101359150565b80356001600160a01b0381168114610a57575f80fd5b919050565b5f60208284031215610a6c575f80fd5b610a7582610a41565b9392505050565b604080825283518282018190525f9190606090818501906020808901865b83811015610ae757815180518652838101516001600160a01b0316848701528781015188870152868101518787015260809081015115159086015260a09094019390820190600101610a9a565b505095909501959095525092949350505050565b5f805f60608486031215610b0d575f80fd5b610b1684610a41565b95602085013595506040909401359392505050565b634e487b7160e01b5f52603260045260245ffd5b634e487b7160e01b5f52601160045260245ffd5b8082028115828204841417610b6a57610b6a610b3f565b92915050565b5f82610b8a57634e487b7160e01b5f52601260045260245ffd5b500490565b634e487b7160e01b5f52604160045260245ffd5b80820180821115610b6a57610b6a610b3f565b5f60018201610bc757610bc7610b3f565b506001019056fea264697066735822122077203a07f2932136e1c1fda60c3bd5e11a64e987c12fa1d16ea16d72bd4222fa64736f6c63430008140033",
+    "sourceMap": "398:10926:19:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1836:41;;;;;;;;;;;;179:14:20;;172:22;154:41;;142:2;127:18;1836:41:19;;;;;;;;1884:22;;;;;;;;-1:-1:-1;;;;;1884:22:19;;;;;;-1:-1:-1;;;;;370:32:20;;;352:51;;340:2;325:18;1884:22:19;206:203:20;1649:43:19;;;;;;;;;560:25:20;;;548:2;533:18;1649:43:19;414:177:20;7142:531:19;;;;;;:::i;:::-;;:::i;10603:200::-;;;;;;:::i;:::-;;:::i;:::-;;11066:256;;;;;;:::i;:::-;;:::i;1714:43::-;;;;;;8686:124;;;:::i;2293:101:15:-;;;:::i;8866:127:19:-;;;:::i;1638:85:15:-;1684:7;1710:6;-1:-1:-1;;;;;1710:6:15;1638:85;;9654:127:19;;;;;;:::i;:::-;;:::i;8345:286::-;;;;;;:::i;:::-;;:::i;5416:810::-;;;;;;:::i;:::-;;:::i;:::-;;;;;;;;:::i;6488:306::-;;;:::i;:::-;;;;2726:25:20;;;2782:2;2767:18;;2760:34;;;;2810:18;;;2803:34;2714:2;2699:18;6488:306:19;2524:319:20;10048:461:19;;;;;;:::i;:::-;;:::i;2543:215:15:-;;;;;;:::i;:::-;;:::i;1796:34:19:-;;;;;;7142:531;7275:9;:16;7234:7;;7261:30;;7257:62;;7300:19;;-1:-1:-1;;;7300:19:19;;;;;;;;;;;7257:62;7329:20;7352:9;7362:10;7352:21;;;;;;;;:::i;:::-;;;;;;;;;;;;;;7388:12;;;;7352:21;;-1:-1:-1;7388:12:19;;7387:13;;:41;;-1:-1:-1;7404:19:19;;;;:24;7387:41;7383:55;;;-1:-1:-1;7437:1:19;;7142:531;-1:-1:-1;;7142:531:19:o;7383:55::-;7526:28;7589:6;7558:3;:19;;;7580:5;7558:27;;;;:::i;:::-;7557:38;;;;:::i;:::-;7526:69;;7646:20;7613:3;:20;;;7636:6;7613:29;;;;:::i;:::-;7612:54;;;;:::i;:::-;7605:61;7142:531;-1:-1:-1;;;;7142:531:19:o;10603:200::-;1531:13:15;:11;:13::i;:::-;10723:14:19::1;:32:::0;;;;10765:13:::1;:31:::0;10603:200::o;11066:256::-;1531:13:15;:11;:13::i;:::-;11207:9:19::1;:16:::0;11193:30;::::1;11189:62;;11232:19;;-1:-1:-1::0;;;11232:19:19::1;;;;;;;;;;;11189:62;11302:13;11261:9;11271:10;11261:21;;;;;;;;:::i;:::-;;;;;;;;;;;:38;;:54;;;;11066:256:::0;;:::o;8686:124::-;3753:15;:13;:15::i;:::-;8746:18:::1;:25:::0;;-1:-1:-1;;8746:25:19::1;8767:4;8746:25;::::0;;8786:17:::1;::::0;::::1;::::0;8746:18:::1;::::0;8786:17:::1;8686:124::o:0;2293:101:15:-;1531:13;:11;:13::i;:::-;2357:30:::1;2384:1;2357:18;:30::i;:::-;2293:101::o:0;8866:127:19:-;3753:15;:13;:15::i;:::-;8927:18:::1;:26:::0;;-1:-1:-1;;8927:26:19::1;::::0;;8968:18:::1;::::0;::::1;::::0;8948:5:::1;::::0;8968:18:::1;8866:127::o:0;9654:::-;1531:13:15;:11;:13::i;:::-;9721:7:19::1;:18:::0;;-1:-1:-1;;;;;;9721:18:19::1;;-1:-1:-1::0;;;;;9721:18:19;::::1;::::0;;::::1;::::0;;;::::1;::::0;;;9754:20:::1;::::0;::::1;::::0;-1:-1:-1;;9754:20:19::1;9654:127:::0;:::o;8345:286::-;3753:15;:13;:15::i;:::-;8424:12;;;:42:::1;;;8451:15;;8440:7;:26;;8424:42;8420:76;;;8475:21;;-1:-1:-1::0;;;8475:21:19::1;;;;;;;;;;;8420:76;8525:15;::::0;;8550:25;;;;8590:34:::1;::::0;;4008:25:20;;;4064:2;4049:18;;4042:34;;;8590::19::1;::::0;3981:18:20;8590:34:19::1;;;;;;;8410:221;8345:286:::0;:::o;5416:810::-;5583:9;:16;5521:23;;5614:14;;;;;:28;;-1:-1:-1;5632:10:19;;5614:28;5610:92;;;5666:17;;;5681:1;5666:17;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;5658:33;;;;5610:92;5712:11;5742:5;5726:13;5734:5;5726;:13;:::i;:::-;:21;:45;;5758:13;5766:5;5758;:13;:::i;:::-;5726:45;;;5750:5;5726:45;5712:59;-1:-1:-1;5781:13:19;5881:5;5864:97;5892:3;5888:1;:7;5864:97;;;5920:9;5930:1;5920:12;;;;;;;;:::i;:::-;;;;;;;;;:21;:12;;;;;:21;;;;5916:34;;;5943:7;;;;:::i;:::-;;;;5916:34;5897:3;;;;:::i;:::-;;;;5864:97;;;;5994:5;5979:21;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;-1:-1:-1;5971:29:19;-1:-1:-1;6010:11:19;6088:5;6071:149;6099:3;6095:1;:7;6071:149;;;6127:9;6137:1;6127:12;;;;;;;;:::i;:::-;;;;;;;;;:21;:12;;;;;:21;;;;6123:87;;;6183:9;6193:1;6183:12;;;;;;;;:::i;:::-;;;;;;;;;;6168:27;;;;;;;;6183:12;;;;;;;6168:27;;;;;;;;-1:-1:-1;;;;;6168:27:19;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:5;6174;;;;:::i;:::-;;;6168:12;;;;;;;;:::i;:::-;;;;;;:27;;;;6123:87;6104:3;;;;:::i;:::-;;;;6071:149;;;;5565:661;;;5416:810;;;;;;:::o;6488:306::-;6645:14;;6683:13;;6559:19;;6645:14;6720:19;;:67;;6773:14;;6747:13;;:22;;6763:6;6747:22;:::i;:::-;6746:41;;;;:::i;:::-;6720:67;;;6742:1;6720:67;6706:81;;6488:306;;;:::o;10048:461::-;1531:13:15;:11;:13::i;:::-;10186:9:19::1;:16:::0;;10227:211:::1;::::0;;::::1;::::0;::::1;::::0;;;;;-1:-1:-1;;;;;10227:211:19;;::::1;;::::0;;::::1;::::0;;;;;;;;;;;;;;;;;;;;;10212:227;;::::1;::::0;;-1:-1:-1;10212:227:19;;;;;;;::::1;::::0;::::1;::::0;;::::1;::::0;;;;;;;;;;;-1:-1:-1;;;;;;10212:227:19::1;::::0;;;::::1;;::::0;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;10212:227:19::1;::::0;::::1;;::::0;;;::::1;::::0;;10454:48;;4008:25:20;;;4049:18;;;4042:34;;;10186:16:19;;10227:211;10186:16;;10454:48:::1;::::0;3981:18:20;10454:48:19::1;;;;;;;10163:346;10048:461:::0;;;:::o;2543:215:15:-;1531:13;:11;:13::i;:::-;-1:-1:-1;;;;;2627:22:15;::::1;2623:91;;2672:31;::::0;-1:-1:-1;;;2672:31:15;;2700:1:::1;2672:31;::::0;::::1;352:51:20::0;325:18;;2672:31:15::1;;;;;;;;2623:91;2723:28;2742:8;2723:18;:28::i;:::-;2543:215:::0;:::o;1796:162::-;1684:7;1710:6;-1:-1:-1;;;;;1710:6:15;735:10:16;1855:23:15;1851:101;;1901:40;;-1:-1:-1;;;1901:40:15;;735:10:16;1901:40:15;;;352:51:20;325:18;;1901:40:15;206:203:20;3792:161:19;3845:7;;;;;-1:-1:-1;;;;;3845:7:19;3841:49;;3875:15;;-1:-1:-1;;;3875:15:19;;;;;;;;;;;3841:49;3918:7;;;;;-1:-1:-1;;;;;3918:7:19;3904:10;:21;3900:46;;3934:12;;-1:-1:-1;;;3934:12:19;;;;;;;;;;;2912:187:15;2985:16;3004:6;;-1:-1:-1;;;;;3020:17:15;;;-1:-1:-1;;;;;;3020:17:15;;;;;;3052:40;;3004:6;;;;;;;3052:40;;2985:16;3052:40;2975:124;2912:187;:::o;-1:-1:-1:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;596:180:20:-;655:6;708:2;696:9;687:7;683:23;679:32;676:52;;;724:1;721;714:12;676:52;-1:-1:-1;747:23:20;;596:180;-1:-1:-1;596:180:20:o;781:248::-;849:6;857;910:2;898:9;889:7;885:23;881:32;878:52;;;926:1;923;916:12;878:52;-1:-1:-1;;949:23:20;;;1019:2;1004:18;;;991:32;;-1:-1:-1;781:248:20:o;1034:173::-;1102:20;;-1:-1:-1;;;;;1151:31:20;;1141:42;;1131:70;;1197:1;1194;1187:12;1131:70;1034:173;;;:::o;1212:186::-;1271:6;1324:2;1312:9;1303:7;1299:23;1295:32;1292:52;;;1340:1;1337;1330:12;1292:52;1363:29;1382:9;1363:29;:::i;:::-;1353:39;1212:186;-1:-1:-1;;;1212:186:20:o;1403:1116::-;1656:2;1708:21;;;1778:13;;1681:18;;;1800:22;;;1627:4;;1656:2;1841;;1859:18;;;;1896:4;1923:15;;;1627:4;1966:484;1980:6;1977:1;1974:13;1966:484;;;2039:13;;2077:9;;2065:22;;2131:11;;;2125:18;-1:-1:-1;;;;;2121:44:20;2107:12;;;2100:66;2206:11;;;2200:18;2186:12;;;2179:40;2259:11;;;2253:18;2239:12;;;2232:40;2295:4;2353:11;;;2347:18;2340:26;2333:34;2319:12;;;2312:56;2153:3;2388:14;;;;2425:15;;;;2162:1;1995:9;1966:484;;;-1:-1:-1;;2486:18:20;;;;2479:34;;;;-1:-1:-1;2467:3:20;;1403:1116;-1:-1:-1;;;;1403:1116:20:o;2848:322::-;2925:6;2933;2941;2994:2;2982:9;2973:7;2969:23;2965:32;2962:52;;;3010:1;3007;3000:12;2962:52;3033:29;3052:9;3033:29;:::i;:::-;3023:39;3109:2;3094:18;;3081:32;;-1:-1:-1;3160:2:20;3145:18;;;3132:32;;2848:322;-1:-1:-1;;;2848:322:20:o;3175:127::-;3236:10;3231:3;3227:20;3224:1;3217:31;3267:4;3264:1;3257:15;3291:4;3288:1;3281:15;3307:127;3368:10;3363:3;3359:20;3356:1;3349:31;3399:4;3396:1;3389:15;3423:4;3420:1;3413:15;3439:168;3512:9;;;3543;;3560:15;;;3554:22;;3540:37;3530:71;;3581:18;;:::i;:::-;3439:168;;;;:::o;3612:217::-;3652:1;3678;3668:132;;3722:10;3717:3;3713:20;3710:1;3703:31;3757:4;3754:1;3747:15;3785:4;3782:1;3775:15;3668:132;-1:-1:-1;3814:9:20;;3612:217::o;4087:127::-;4148:10;4143:3;4139:20;4136:1;4129:31;4179:4;4176:1;4169:15;4203:4;4200:1;4193:15;4219:125;4284:9;;;4305:10;;;4302:36;;;4318:18;;:::i;4349:135::-;4388:3;4409:17;;;4406:43;;4429:18;;:::i;:::-;-1:-1:-1;4476:1:20;4465:13;;4349:135::o",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {
+    "addPosition(address,uint256,uint256)": "cff07fd1",
+    "gateway()": "116191b6",
+    "getActivePositions(uint256,uint256)": "b8b498a2",
+    "getHealthFactor(uint256)": "17845c69",
+    "getPoolStats()": "bbb85188",
+    "maxLeverageTier()": "fa401ae8",
+    "newPositionsPaused()": "0127b5af",
+    "owner()": "8da5cb5b",
+    "pauseNewPositions()": "6a62e356",
+    "reduceMaxLeverage(uint256)": "95287772",
+    "renounceOwnership()": "715018a6",
+    "resumeNewPositions()": "7390ba01",
+    "setGateway(address)": "90646b4a",
+    "setPoolStats(uint256,uint256)": "1a72bfa5",
+    "setPositionCollateral(uint256,uint256)": "3fa017f3",
+    "totalBorrowed()": "4c19386c",
+    "totalLiquidity()": "15770f92",
+    "transferOwnership(address)": "f2fde38b"
+  },
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.20+commit.a1b79de6\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"initialOwner\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"GatewayNotSet\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidLeverageTier\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidPositionId\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"NotGateway\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"OwnableInvalidOwner\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"OwnableUnauthorizedAccount\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"gateway\",\"type\":\"address\"}],\"name\":\"GatewaySet\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"previousTier\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newTier\",\"type\":\"uint256\"}],\"name\":\"LeverageReduced\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"id\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"trader\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"collateral\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"prefunded\",\"type\":\"uint256\"}],\"name\":\"PositionAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"PositionsPaused\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"PositionsResumed\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"trader\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"collateral\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"prefunded\",\"type\":\"uint256\"}],\"name\":\"addPosition\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"gateway\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"start\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"limit\",\"type\":\"uint256\"}],\"name\":\"getActivePositions\",\"outputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"id\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"trader\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"collateralAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"prefundedAmount\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"isActive\",\"type\":\"bool\"}],\"internalType\":\"struct MockInvalendProtocol.Position[]\",\"name\":\"batch\",\"type\":\"tuple[]\"},{\"internalType\":\"uint256\",\"name\":\"total\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"positionId\",\"type\":\"uint256\"}],\"name\":\"getHealthFactor\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getPoolStats\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"utilization\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"liquidity\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"borrowed\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"maxLeverageTier\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"newPositionsPaused\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"pauseNewPositions\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newTier\",\"type\":\"uint256\"}],\"name\":\"reduceMaxLeverage\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"resumeNewPositions\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_gateway\",\"type\":\"address\"}],\"name\":\"setGateway\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_totalLiquidity\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_totalBorrowed\",\"type\":\"uint256\"}],\"name\":\"setPoolStats\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"positionId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"newCollateral\",\"type\":\"uint256\"}],\"name\":\"setPositionCollateral\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"totalBorrowed\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"totalLiquidity\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"errors\":{\"OwnableInvalidOwner(address)\":[{\"details\":\"The owner is not a valid owner account. (eg. `address(0)`)\"}],\"OwnableUnauthorizedAccount(address)\":[{\"details\":\"The caller account is not authorized to perform an operation.\"}]},\"kind\":\"dev\",\"methods\":{\"addPosition(address,uint256,uint256)\":{\"params\":{\"collateral\":\"Collateral amount (USDC, 6 decimals)\",\"prefunded\":\"LP prefunded amount (USDC, 6 decimals)\",\"trader\":\"Trader wallet address\"}},\"getActivePositions(uint256,uint256)\":{\"details\":\"Pagination prevents RPC payload bloat for production-scale usage.\",\"params\":{\"limit\":\"Maximum number of positions to return\",\"start\":\"Index to start from (0-based)\"},\"returns\":{\"batch\":\" Slice of active positions\",\"total\":\" Total number of positions \\u2014 used for pagination math\"}},\"getHealthFactor(uint256)\":{\"details\":\"healthFactor = collateral / (prefunded * 0.8), expressed as basis points.      10000 = 100%. At-threshold = 8000 (80%).\",\"params\":{\"positionId\":\"The position's array index\"},\"returns\":{\"_0\":\"Health factor in basis points (e.g., 9200 = 92%)\"}},\"getPoolStats()\":{\"returns\":{\"borrowed\":\"     Total borrowed (USDC, 6 decimals)\",\"liquidity\":\"    Total liquidity (USDC, 6 decimals)\",\"utilization\":\"  Utilization rate in basis points (10000 = 100%)\"}},\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"reduceMaxLeverage(uint256)\":{\"params\":{\"newTier\":\"New leverage tier (must be less than current and > 0)\"}},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner.\"},\"setGateway(address)\":{\"params\":{\"_gateway\":\"Address of the deployed MetricoreGateway contract\"}},\"setPositionCollateral(uint256,uint256)\":{\"params\":{\"newCollateral\":\"New collateral value (USDC, 6 decimals)\",\"positionId\":\"Position array index\"}},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"}},\"title\":\"MockInvalendProtocol\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"addPosition(address,uint256,uint256)\":{\"notice\":\"Adds a new mock position. Used by Seed.s.sol and InjectStress.s.sol.\"},\"getActivePositions(uint256,uint256)\":{\"notice\":\"Returns a paginated slice of active positions plus the total count.\"},\"getHealthFactor(uint256)\":{\"notice\":\"Returns the health factor for a specific position in basis points.\"},\"getPoolStats()\":{\"notice\":\"Returns current pool statistics.\"},\"pauseNewPositions()\":{\"notice\":\"Pauses opening of new positions.\"},\"reduceMaxLeverage(uint256)\":{\"notice\":\"Reduces the maximum leverage tier.\"},\"resumeNewPositions()\":{\"notice\":\"Resumes opening of new positions.\"},\"setGateway(address)\":{\"notice\":\"Sets the MetricoreGateway address.\"},\"setPoolStats(uint256,uint256)\":{\"notice\":\"Overrides pool liquidity and borrow stats. Used by Seed/Stress scripts.\"},\"setPositionCollateral(uint256,uint256)\":{\"notice\":\"Overrides collateral of an existing position.         Used by InjectStress.s.sol to simulate price-drop scenarios.\"}},\"notice\":\"Simulates an under-collateralized DeFi lending protocol for Metricore demo.         Exposes paginated position data and pool stats for CRE workflow reads,         and accepts risk-control actions from MetricoreGateway.\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"src/MockInvalendProtocol.sol\":\"MockInvalendProtocol\"},\"evmVersion\":\"shanghai\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[\":@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/\",\":erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":halmos-cheatcodes/=lib/openzeppelin-contracts/lib/halmos-cheatcodes/src/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/\"]},\"sources\":{\"lib/openzeppelin-contracts/contracts/access/Ownable.sol\":{\"keccak256\":\"0xff6d0bb2e285473e5311d9d3caacb525ae3538a80758c10649a4d61029b017bb\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8ed324d3920bb545059d66ab97d43e43ee85fd3bd52e03e401f020afb0b120f6\",\"dweb:/ipfs/QmfEckWLmZkDDcoWrkEvMWhms66xwTLff9DDhegYpvHo1a\"]},\"lib/openzeppelin-contracts/contracts/utils/Context.sol\":{\"keccak256\":\"0x493033a8d1b176a037b2cc6a04dad01a5c157722049bbecf632ca876224dd4b2\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6a708e8a5bdb1011c2c381c9a5cfd8a9a956d7d0a9dc1bd8bcdaf52f76ef2f12\",\"dweb:/ipfs/Qmax9WHBnVsZP46ZxEMNRQpLQnrdE4dK8LehML1Py8FowF\"]},\"src/MockInvalendProtocol.sol\":{\"keccak256\":\"0xcfd4f10b5759b56b3338ce1b673565c9caf0ade54a4575e75163a3784c121c18\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://581bfdba444f5812b1fe446417b5d192b808075e3e994236e718d8f36ed320b2\",\"dweb:/ipfs/QmXo3FKvJf7JsLqKAEdWuRj2FWRmsbe1qEaoi1mM9gAPkG\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": { "version": "0.8.20+commit.a1b79de6" },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "initialOwner",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "constructor"
+        },
+        { "inputs": [], "type": "error", "name": "GatewayNotSet" },
+        { "inputs": [], "type": "error", "name": "InvalidLeverageTier" },
+        { "inputs": [], "type": "error", "name": "InvalidPositionId" },
+        { "inputs": [], "type": "error", "name": "NotGateway" },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "owner", "type": "address" }
+          ],
+          "type": "error",
+          "name": "OwnableInvalidOwner"
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "account", "type": "address" }
+          ],
+          "type": "error",
+          "name": "OwnableUnauthorizedAccount"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "gateway",
+              "type": "address",
+              "indexed": true
+            }
+          ],
+          "type": "event",
+          "name": "GatewaySet",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "previousTier",
+              "type": "uint256",
+              "indexed": false
+            },
+            {
+              "internalType": "uint256",
+              "name": "newTier",
+              "type": "uint256",
+              "indexed": false
+            }
+          ],
+          "type": "event",
+          "name": "LeverageReduced",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "previousOwner",
+              "type": "address",
+              "indexed": true
+            },
+            {
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address",
+              "indexed": true
+            }
+          ],
+          "type": "event",
+          "name": "OwnershipTransferred",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256",
+              "indexed": true
+            },
+            {
+              "internalType": "address",
+              "name": "trader",
+              "type": "address",
+              "indexed": true
+            },
+            {
+              "internalType": "uint256",
+              "name": "collateral",
+              "type": "uint256",
+              "indexed": false
+            },
+            {
+              "internalType": "uint256",
+              "name": "prefunded",
+              "type": "uint256",
+              "indexed": false
+            }
+          ],
+          "type": "event",
+          "name": "PositionAdded",
+          "anonymous": false
+        },
+        {
+          "inputs": [],
+          "type": "event",
+          "name": "PositionsPaused",
+          "anonymous": false
+        },
+        {
+          "inputs": [],
+          "type": "event",
+          "name": "PositionsResumed",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "trader", "type": "address" },
+            {
+              "internalType": "uint256",
+              "name": "collateral",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "prefunded",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "addPosition"
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "gateway",
+          "outputs": [
+            { "internalType": "address", "name": "", "type": "address" }
+          ]
+        },
+        {
+          "inputs": [
+            { "internalType": "uint256", "name": "start", "type": "uint256" },
+            { "internalType": "uint256", "name": "limit", "type": "uint256" }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "getActivePositions",
+          "outputs": [
+            {
+              "internalType": "struct MockInvalendProtocol.Position[]",
+              "name": "batch",
+              "type": "tuple[]",
+              "components": [
+                { "internalType": "uint256", "name": "id", "type": "uint256" },
+                {
+                  "internalType": "address",
+                  "name": "trader",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "collateralAmount",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "prefundedAmount",
+                  "type": "uint256"
+                },
+                { "internalType": "bool", "name": "isActive", "type": "bool" }
+              ]
+            },
+            { "internalType": "uint256", "name": "total", "type": "uint256" }
+          ]
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "positionId",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "getHealthFactor",
+          "outputs": [
+            { "internalType": "uint256", "name": "", "type": "uint256" }
+          ]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "getPoolStats",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "utilization",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "liquidity",
+              "type": "uint256"
+            },
+            { "internalType": "uint256", "name": "borrowed", "type": "uint256" }
+          ]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "maxLeverageTier",
+          "outputs": [
+            { "internalType": "uint256", "name": "", "type": "uint256" }
+          ]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "newPositionsPaused",
+          "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "owner",
+          "outputs": [
+            { "internalType": "address", "name": "", "type": "address" }
+          ]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "pauseNewPositions"
+        },
+        {
+          "inputs": [
+            { "internalType": "uint256", "name": "newTier", "type": "uint256" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "reduceMaxLeverage"
+        },
+        {
+          "inputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "renounceOwnership"
+        },
+        {
+          "inputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "resumeNewPositions"
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "_gateway", "type": "address" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "setGateway"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "_totalLiquidity",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "_totalBorrowed",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "setPoolStats"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "positionId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "newCollateral",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "setPositionCollateral"
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "totalBorrowed",
+          "outputs": [
+            { "internalType": "uint256", "name": "", "type": "uint256" }
+          ]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "totalLiquidity",
+          "outputs": [
+            { "internalType": "uint256", "name": "", "type": "uint256" }
+          ]
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "newOwner", "type": "address" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "transferOwnership"
+        }
+      ],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {
+          "addPosition(address,uint256,uint256)": {
+            "params": {
+              "collateral": "Collateral amount (USDC, 6 decimals)",
+              "prefunded": "LP prefunded amount (USDC, 6 decimals)",
+              "trader": "Trader wallet address"
+            }
+          },
+          "getActivePositions(uint256,uint256)": {
+            "details": "Pagination prevents RPC payload bloat for production-scale usage.",
+            "params": {
+              "limit": "Maximum number of positions to return",
+              "start": "Index to start from (0-based)"
+            },
+            "returns": {
+              "batch": " Slice of active positions",
+              "total": " Total number of positions — used for pagination math"
+            }
+          },
+          "getHealthFactor(uint256)": {
+            "details": "healthFactor = collateral / (prefunded * 0.8), expressed as basis points.      10000 = 100%. At-threshold = 8000 (80%).",
+            "params": { "positionId": "The position's array index" },
+            "returns": {
+              "_0": "Health factor in basis points (e.g., 9200 = 92%)"
+            }
+          },
+          "getPoolStats()": {
+            "returns": {
+              "borrowed": "     Total borrowed (USDC, 6 decimals)",
+              "liquidity": "    Total liquidity (USDC, 6 decimals)",
+              "utilization": "  Utilization rate in basis points (10000 = 100%)"
+            }
+          },
+          "owner()": { "details": "Returns the address of the current owner." },
+          "reduceMaxLeverage(uint256)": {
+            "params": {
+              "newTier": "New leverage tier (must be less than current and > 0)"
+            }
+          },
+          "renounceOwnership()": {
+            "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner."
+          },
+          "setGateway(address)": {
+            "params": {
+              "_gateway": "Address of the deployed MetricoreGateway contract"
+            }
+          },
+          "setPositionCollateral(uint256,uint256)": {
+            "params": {
+              "newCollateral": "New collateral value (USDC, 6 decimals)",
+              "positionId": "Position array index"
+            }
+          },
+          "transferOwnership(address)": {
+            "details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+          }
+        },
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {
+          "addPosition(address,uint256,uint256)": {
+            "notice": "Adds a new mock position. Used by Seed.s.sol and InjectStress.s.sol."
+          },
+          "getActivePositions(uint256,uint256)": {
+            "notice": "Returns a paginated slice of active positions plus the total count."
+          },
+          "getHealthFactor(uint256)": {
+            "notice": "Returns the health factor for a specific position in basis points."
+          },
+          "getPoolStats()": { "notice": "Returns current pool statistics." },
+          "pauseNewPositions()": {
+            "notice": "Pauses opening of new positions."
+          },
+          "reduceMaxLeverage(uint256)": {
+            "notice": "Reduces the maximum leverage tier."
+          },
+          "resumeNewPositions()": {
+            "notice": "Resumes opening of new positions."
+          },
+          "setGateway(address)": {
+            "notice": "Sets the MetricoreGateway address."
+          },
+          "setPoolStats(uint256,uint256)": {
+            "notice": "Overrides pool liquidity and borrow stats. Used by Seed/Stress scripts."
+          },
+          "setPositionCollateral(uint256,uint256)": {
+            "notice": "Overrides collateral of an existing position.         Used by InjectStress.s.sol to simulate price-drop scenarios."
+          }
+        },
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+        "erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/",
+        "forge-std/=lib/forge-std/src/",
+        "halmos-cheatcodes/=lib/openzeppelin-contracts/lib/halmos-cheatcodes/src/",
+        "openzeppelin-contracts/=lib/openzeppelin-contracts/"
+      ],
+      "optimizer": { "enabled": true, "runs": 200 },
+      "metadata": { "bytecodeHash": "ipfs" },
+      "compilationTarget": {
+        "src/MockInvalendProtocol.sol": "MockInvalendProtocol"
+      },
+      "evmVersion": "shanghai",
+      "libraries": {}
+    },
+    "sources": {
+      "lib/openzeppelin-contracts/contracts/access/Ownable.sol": {
+        "keccak256": "0xff6d0bb2e285473e5311d9d3caacb525ae3538a80758c10649a4d61029b017bb",
+        "urls": [
+          "bzz-raw://8ed324d3920bb545059d66ab97d43e43ee85fd3bd52e03e401f020afb0b120f6",
+          "dweb:/ipfs/QmfEckWLmZkDDcoWrkEvMWhms66xwTLff9DDhegYpvHo1a"
+        ],
+        "license": "MIT"
+      },
+      "lib/openzeppelin-contracts/contracts/utils/Context.sol": {
+        "keccak256": "0x493033a8d1b176a037b2cc6a04dad01a5c157722049bbecf632ca876224dd4b2",
+        "urls": [
+          "bzz-raw://6a708e8a5bdb1011c2c381c9a5cfd8a9a956d7d0a9dc1bd8bcdaf52f76ef2f12",
+          "dweb:/ipfs/Qmax9WHBnVsZP46ZxEMNRQpLQnrdE4dK8LehML1Py8FowF"
+        ],
+        "license": "MIT"
+      },
+      "src/MockInvalendProtocol.sol": {
+        "keccak256": "0xcfd4f10b5759b56b3338ce1b673565c9caf0ade54a4575e75163a3784c121c18",
+        "urls": [
+          "bzz-raw://581bfdba444f5812b1fe446417b5d192b808075e3e994236e718d8f36ed320b2",
+          "dweb:/ipfs/QmXo3FKvJf7JsLqKAEdWuRj2FWRmsbe1qEaoi1mM9gAPkG"
+        ],
+        "license": "MIT"
+      }
+    },
+    "version": 1
+  },
+  "id": 19
+}

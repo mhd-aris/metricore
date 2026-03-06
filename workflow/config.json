@@ -1,0 +1,4 @@
+{
+  "schedule": "*/5 * * * *",
+  "chainName": "ethereum-testnet-sepolia-base-1"
+}

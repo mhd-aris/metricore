@@ -3,14 +3,14 @@
 // These mirror the on-chain structs and the CODING_CONTEXT.md schema.
 // ─────────────────────────────────────────────────────────────────────────────
 
-// ── CRE Workflow Config ───────────────────────────────────────────────────────
+// ── CRE Workflow Config (mirrors workflow/config.json) ───────────────────────
+// Non-sensitive config parsed from config.json at runtime.
+// Secrets (ALERT_WEBHOOK_URL, GATEWAY_ADDRESS, PROTOCOL_ADDRESS) are accessed
+// via runtime.getSecret({ id: "..." }) — NOT via runtime.config.
 
 export type Config = {
-  secrets: {
-    ALERT_WEBHOOK_URL: string
-    GATEWAY_ADDRESS: string
-    PROTOCOL_ADDRESS: string
-  }
+  schedule: string        // e.g. "*/5 * * * *"
+  chainName: string       // e.g. "ethereum-testnet-sepolia-base-1"
 }
 
 // ── Risk classification ───────────────────────────────────────────────────────
