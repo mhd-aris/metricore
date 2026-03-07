@@ -32,6 +32,8 @@ interface IMockProtocol {
     function reduceMaxLeverage(uint256 newTier) external;
 
     function pauseNewPositions() external;
+
+    function resumeNewPositions() external;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -176,6 +178,16 @@ contract MetricoreGateway is Ownable {
         if (_forwarder == address(0)) revert ZeroAddress();
         forwarder = _forwarder;
         emit ForwarderSet(_forwarder);
+    }
+
+    /// @notice Resets the cooldown for a given action type. Demo / admin use only.
+    function resetCooldown(bytes32 actionType) external onlyOwner {
+        lastActionTimestamp[actionType] = 0;
+    }
+
+    /// @notice Resumes new positions on the protocol via gateway. Demo / admin use.
+    function resumeNewPositions() external onlyOwner {
+        IMockProtocol(protocol).resumeNewPositions();
     }
 
     /// @notice Sets the MockInvalendProtocol address the Gateway reads and acts on.
