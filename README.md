@@ -43,10 +43,15 @@ The core problem it solves: under-collateralized lending protocols (where borrow
   CRITICAL  ──→  EVM Write: proposeAction(PAUSE_POSITIONS)
          |
          v
-[MetricoreGateway — Propose-Verify-Execute]
-  1. Check cooldown (30 min per action type)
-  2. Re-verify threshold independently from on-chain state
-  3. Execute on MockInvalendProtocol if condition confirmed
+[MockKeystoneForwarder — 0x82300bd7c3958625581cc2F77bC6464dcEcDF3e5]
+  validates DON signatures → calls MetricoreGateway.onReport()
+         |
+         v
+[MetricoreGateway — Verify-Execute]
+  1. Decode actionType from report
+  2. Re-verify threshold from on-chain state
+  3. Check cooldown (30 min per action type)
+  4. Execute on MockInvalendProtocol if confirmed
 ```
 
 ---
@@ -69,7 +74,7 @@ Every file that directly uses Chainlink CRE SDK or infrastructure:
 
 | File | Chainlink Usage |
 |---|---|
-| [workflow/src/index.ts](workflow/src/index.ts) | `Runner.newRunner()`, `handler()`, `CronCapability`, `EVMClient.callContract()` for `proposeAction` + `updatePriceSnapshot` |
+| [workflow/src/index.ts](workflow/src/index.ts) | `Runner.newRunner()`, `handler()`, `CronCapability`, `runtime.report()` + `evmClient.writeReport()` via KeystoneForwarder for `proposeAction` |
 | [workflow/src/modules/positionHealth.ts](workflow/src/modules/positionHealth.ts) | `EVMClient.callContract()` via `encodeCallMsg` — reads position health factors |
 | [workflow/src/modules/poolStress.ts](workflow/src/modules/poolStress.ts) | `EVMClient.callContract()` — reads pool utilization and liquidity stats |
 | [workflow/src/modules/marketCondition.ts](workflow/src/modules/marketCondition.ts) | `HTTPClient` inside `NodeRuntime` + `consensusMedianAggregation` — fetches CoinGecko + Fear & Greed |
@@ -86,6 +91,7 @@ Every file that directly uses Chainlink CRE SDK or infrastructure:
 |---|---|---|
 | MockInvalendProtocol | [`0x59Ff05691A0F0c0E5A8bEA315aA8eBcB934fffDf`](https://sepolia.basescan.org/address/0x59Ff05691A0F0c0E5A8bEA315aA8eBcB934fffDf) | ✅ Basescan |
 | MetricoreGateway | [`0x96965cBF49836DD971a5302d2E4fe5a8A78363B3`](https://sepolia.basescan.org/address/0x96965cBF49836DD971a5302d2E4fe5a8A78363B3) | ✅ Basescan |
+| MockKeystoneForwarder (Simulation) | `0x82300bd7c3958625581cc2F77bC6464dcEcDF3e5` | ✅ Chainlink |
 
 **Seeded State:**
 
@@ -111,7 +117,7 @@ Pool utilization seeded at **65%** (normal), stress-injectable to **87%** (HIGH)
 ```bash
 cd contracts
 forge install
-forge test           # 19/19 tests pass
+forge test           # 21/21 tests pass
 forge script script/Deploy.s.sol --rpc-url $BASE_SEPOLIA_RPC_URL --private-key $PRIVATE_KEY --broadcast
 forge script script/Seed.s.sol --rpc-url $BASE_SEPOLIA_RPC_URL --private-key $PRIVATE_KEY --broadcast
 
@@ -147,7 +153,7 @@ bun install
 
 # Run simulation against live Base Sepolia contracts:
 cd ..
-cre workflow simulate ./workflow -e .env
+cre workflow simulate ./workflow -e .env --broadcast
 
 # Expected output:
 # [METRICORE] Position risk: CRITICAL (position 7 at 79% HF)
