@@ -176,7 +176,7 @@ BASE_SEPOLIA_RPC_URL=https://sepolia.base.org
 
 ## Video Demo
 
-[LINK TBD]
+**[Watch Demo](https://youtu.be/B5BhCPD15FQ)** — 5 minute walkthrough
 
 The video demonstrates:
 - Live contracts on Basescan (MockInvalendProtocol + MetricoreGateway)
