@@ -14,6 +14,8 @@ Every 5 minutes, the workflow reads live position and pool data directly from Ba
 
 The core problem it solves: under-collateralized lending protocols (where borrowers lock only 20% collateral and the pool funds 80%) are highly sensitive to rapid market moves. Metricore provides the early-warning and circuit-breaker layer that prevents liquidation cascades before they happen.
 
+Metricore was born from a real problem. I'm building [Invalend Protocol](https://invalend.com/) — an early-stage under-collateralized lending protocol on Base that enables traders to access 5x leverage with only 20% collateral. As I was designing the risk architecture, I realized the protocol's core mechanic creates a critical vulnerability: a rapid market move can trigger liquidation cascades faster than any human operator can respond. Metricore is the autonomous monitoring and circuit-breaker layer I'm building for Invalend before it goes to production. For this submission, mock contracts simulate Invalend's lending interface — Phase 2 integrates the production protocol directly.
+
 ---
 
 ## Architecture
